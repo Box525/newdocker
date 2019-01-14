@@ -1,0 +1,20 @@
+version: "3"
+networks:
+  myapp:
+services:
+  web:
+    build:
+      mysite
+    ports:
+      - "6000"
+    networks:
+      - myapp
+  nginx:
+    build:
+      nginx
+    networks:
+      - myapp
+    depends_on:
+      - web
+    ports:
+      - "80:80"

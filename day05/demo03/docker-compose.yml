@@ -1,0 +1,57 @@
+version: "3"
+networks:
+  myhost:
+services:
+  web:
+    build:
+      myapp
+    networks:
+      - myhost
+    ports:
+      - "6001"
+    container_name: web
+    depends_on:
+      - db
+  nginx:
+    build:
+      nginx
+    networks:
+      - myhost
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+      - apache
+  db:
+    image: "hub.c.163.com/library/mysql:latest"
+    networks:
+      - myhost
+    volumes:
+      - $PWD/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: py119db
+    ports:
+      - "3308:3306"
+    container_name: db
+  apache:
+    build:
+      apache
+    networks:
+      - myhost
+    volumes:
+      - $PWD/sources:/usr/local/apache2/htdocs/sources
+    #depends_on:
+      #- web
+    ports:
+      - "8888:80"
+    container_name: apache
+
+
+
+
+
+
+
+

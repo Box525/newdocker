@@ -1,0 +1,10 @@
+version: "3"
+services:
+  myimgweb:
+    build:
+      sample
+    container_name: myapache
+    volumes:
+      - $PWD/img:/usr/local/apache2/htdocs/img
+    ports:
+      - 8080:80
